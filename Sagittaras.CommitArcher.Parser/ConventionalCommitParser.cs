@@ -72,7 +72,7 @@ public static partial class ConventionalCommitParser
     /// </remarks>
     /// <returns>A <see cref="Regex"/> object that can be used to identify and parse conventional commit messages.</returns>
     [GeneratedRegex(
-        @"\A(?:(?:^(?<type>\w+)(?:\((?<scope>[\w-]+)\))?(?<breaking>!)?:\s(?<description>\b[\w#<> ./\t\\-]{3,}(?:\b|\.))$)(?:\n^$\n(?<body>(?:(?!^BREAKING\sCHANGE:|^\w+(?:-\w+)*:).*\n?)*))?(?:\n^$\n(?<footers>(?:(?<breaking_change>^BREAKING\sCHANGE:\s(?<breaking_description>.+(?:\b|\.)$))\n)?(?:^\w+(?:-\w+)*:\s[^\n]+\n*)*))?\n?|)\Z",
+        @"\A(?:(?:^(?<type>\w+)(?:\((?<scope>[\w-]+)\))?(?<breaking>!)?:\s(?<description>.+)$)(?:\n^$\n(?<body>(?:(?!^BREAKING\sCHANGE:|^\w+(?:-\w+)*:).*\n?)*))?(?:\n^$\n(?<footers>(?:(?<breaking_change>^BREAKING\sCHANGE:\s(?<breaking_description>.+(?:\b|\.)$))\n)?(?:^\w+(?:-\w+)*:\s[^\n]+\n*)*))?\n?|)\Z",
         RegexOptions.Multiline
     )]
     public static partial Regex ConventionalCommitRegex();
