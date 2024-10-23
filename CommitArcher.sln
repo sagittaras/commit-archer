@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagittaras.CommitArcher.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagittaras.CommitArcher.Changelog", "Sagittaras.CommitArcher.Changelog\Sagittaras.CommitArcher.Changelog.csproj", "{9DFB2719-FDB4-4222-8529-442D49B7207B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagittaras.CommitArcher.Source.GitHub", "Sagittaras.CommitArcher.Source.GitHub\Sagittaras.CommitArcher.Source.GitHub.csproj", "{C5BFEE4A-9119-45D4-8A0A-90C73E1111EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagittaras.CommitArcher.Changelog.Source.GitHub", "Sagittaras.CommitArcher.Changelog.Source.GitHub\Sagittaras.CommitArcher.Changelog.Source.GitHub.csproj", "{C5BFEE4A-9119-45D4-8A0A-90C73E1111EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Changelog Generator", "2. Changelog Generator", "{A15763C8-56F7-4CE1-920F-FA1B8DE446DE}"
 EndProject

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Sagittaras.CommitArcher.Changelog.Source;
 using Sagittaras.CommitArcher.Core;
 
 namespace Sagittaras.CommitArcher.Changelog.Markdown;

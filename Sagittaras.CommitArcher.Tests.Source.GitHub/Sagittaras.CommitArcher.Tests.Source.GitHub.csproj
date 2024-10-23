@@ -25,7 +25,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sagittaras.CommitArcher.Source.GitHub\Sagittaras.CommitArcher.Source.GitHub.csproj" />
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Changelog.Source.GitHub\Sagittaras.CommitArcher.Changelog.Source.GitHub.csproj" />
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Changelog\Sagittaras.CommitArcher.Changelog.csproj" />
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Core\Sagittaras.CommitArcher.Core.csproj" />
     </ItemGroup>
 
 </Project>

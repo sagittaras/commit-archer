@@ -4,6 +4,13 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Version>1.0.0-preview01</Version>
+        <Title>Commit Archer Core</Title>
+        <Authors>Sagittaras Games</Authors>
+        <Description>Core Library for Commit Archer describing a Conventional Commit as C# object.</Description>
+        <PackageProjectUrl>https://github.com/sagittaras/commit-archer</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/sagittaras/commit-archer/blob/main/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/sagittaras/commit-archer</RepositoryUrl>
     </PropertyGroup>
 
 </Project>

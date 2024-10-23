@@ -24,6 +24,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Sagittaras.CommitArcher.Changelog.Markdown\Sagittaras.CommitArcher.Changelog.Markdown.csproj" />
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Changelog\Sagittaras.CommitArcher.Changelog.csproj" />
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Core\Sagittaras.CommitArcher.Core.csproj" />
     </ItemGroup>
 
 </Project>

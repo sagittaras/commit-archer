@@ -1,6 +1,6 @@
 ﻿using Sagittaras.CommitArcher.Core;
 
-namespace Sagittaras.CommitArcher.Changelog;
+namespace Sagittaras.CommitArcher.Changelog.Source;
 
 /// <summary>
 ///     Represents a result of reading the repository for the latest changelog.

@@ -1,4 +1,4 @@
-﻿namespace Sagittaras.CommitArcher.Source.GitHub;
+﻿namespace Sagittaras.CommitArcher.Changelog.Source.GitHub;
 
 /// <summary>
 ///     A builder class for constructing instances of <see cref="GitHubChangelogSource"/>.

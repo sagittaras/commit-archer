@@ -1,4 +1,4 @@
-﻿namespace Sagittaras.CommitArcher.Changelog;
+﻿namespace Sagittaras.CommitArcher.Changelog.Source;
 
 /// <summary>
 ///     Describes a service that is accessing a git repository for reading

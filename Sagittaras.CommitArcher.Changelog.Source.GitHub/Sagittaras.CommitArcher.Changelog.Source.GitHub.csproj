@@ -4,17 +4,23 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Title>Commit Archer Parser</Title>
-        <Authors>Sagittaras Games</Authors>
         <Version>1.0.0-preview01</Version>
-        <Description>Parser for commit messages in conventional commit format.</Description>
+        <Title>Commit Archer Changelog GitHub Source</Title>
+        <Authors>Sagittaras Games</Authors>
+        <Description>Source of commits from GitHub for Changelog generator.</Description>
         <PackageProjectUrl>https://github.com/sagittaras/commit-archer</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/sagittaras/commit-archer/blob/main/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/sagittaras/commit-archer</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Octokit" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Changelog\Sagittaras.CommitArcher.Changelog.csproj" />
       <ProjectReference Include="..\Sagittaras.CommitArcher.Core\Sagittaras.CommitArcher.Core.csproj" />
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Parser\Sagittaras.CommitArcher.Parser.csproj" />
     </ItemGroup>
 
 </Project>

@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Core\Sagittaras.CommitArcher.Core.csproj" />
       <ProjectReference Include="..\Sagittaras.CommitArcher.Parser\Sagittaras.CommitArcher.Parser.csproj" />
     </ItemGroup>
 

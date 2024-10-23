@@ -1,6 +1,6 @@
 ﻿using Sagittaras.CommitArcher.Core;
 
-namespace Sagittaras.CommitArcher.Changelog;
+namespace Sagittaras.CommitArcher.Changelog.Source;
 
 /// <summary>
 ///     Base implementation of the <see cref="IChangelogResult"/> interface.

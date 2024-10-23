@@ -2,6 +2,7 @@ using FluentAssertions;
 using Moq;
 using Sagittaras.CommitArcher.Changelog;
 using Sagittaras.CommitArcher.Changelog.Markdown;
+using Sagittaras.CommitArcher.Changelog.Source;
 using Sagittaras.CommitArcher.Core;
 
 namespace Sagittaras.CommitArcher.Tests.Changelog.Markdown;

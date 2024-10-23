@@ -1,4 +1,5 @@
-﻿using Sagittaras.CommitArcher.Core;
+﻿using Sagittaras.CommitArcher.Changelog.Source;
+using Sagittaras.CommitArcher.Core;
 using SlackAPI;
 
 namespace Sagittaras.CommitArcher.Changelog.Slack;

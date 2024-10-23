@@ -1,7 +1,8 @@
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Sagittaras.CommitArcher.Changelog;
-using Sagittaras.CommitArcher.Source.GitHub;
+using Sagittaras.CommitArcher.Changelog.Source;
+using Sagittaras.CommitArcher.Changelog.Source.GitHub;
 
 namespace Sagittaras.CommitArcher.Tests.Source.GitHub;
 

@@ -3,7 +3,7 @@ using Sagittaras.CommitArcher.Changelog;
 using Sagittaras.CommitArcher.Core;
 using Sagittaras.CommitArcher.Parser;
 
-namespace Sagittaras.CommitArcher.Source.GitHub;
+namespace Sagittaras.CommitArcher.Changelog.Source.GitHub;
 
 /// <summary>
 ///     Source implementation for GitHub reading the commits via its API and constructing the changelog.
