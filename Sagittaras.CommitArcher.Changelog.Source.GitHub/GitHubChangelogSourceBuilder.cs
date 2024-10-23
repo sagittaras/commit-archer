@@ -76,4 +76,15 @@ public class GitHubChangelogSourceBuilder
         BranchName = branchName;
         return this;
     }
+
+    /// <summary>
+    ///     Sets the logger to be used for logging during the operations.
+    /// </summary>
+    /// <param name="logger">The logger instance to be used.</param>
+    /// <returns>The <see cref="GitHubChangelogSourceBuilder"/> instance with the specified logger.</returns>
+    public GitHubChangelogSourceBuilder UseLogger(ILogger logger)
+    {
+        Logger = logger;
+        return this;
+    }
 }
