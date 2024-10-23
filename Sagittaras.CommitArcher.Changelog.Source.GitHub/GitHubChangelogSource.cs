@@ -32,7 +32,7 @@ public class GitHubChangelogSource : IChangelogSource
     }
 
     /// <summary>
-    ///     Shortuct access to the logger.
+    ///     Shortcut access to the logger.
     /// </summary>
     private ILogger Logger => _builder.Logger;
 
