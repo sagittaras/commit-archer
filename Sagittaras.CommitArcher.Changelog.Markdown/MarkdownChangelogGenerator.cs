@@ -6,28 +6,15 @@ namespace Sagittaras.CommitArcher.Changelog.Markdown;
 /// <summary>
 ///     Generates the changelog as a string in Markdown format.
 /// </summary>
-public class MarkdownChangelogGenerator
+public class MarkdownChangelogGenerator(IChangelogSource source) : ChangelogGenerator
 {
-    /// <summary>
-    ///     A builder for configuring and obtaining a MarkdownChangelogGenerator instance.
-    /// </summary>
-    private readonly MarkdownChangelogGeneratorBuilder _builder;
-
-    /// <summary>
-    ///     Generates the changelog as a string in Markdown format.
-    /// </summary>
-    internal MarkdownChangelogGenerator(MarkdownChangelogGeneratorBuilder builder)
-    {
-        _builder = builder;
-    }
-
     /// <summary>
     ///     Generates the changelog document asynchronously in Markdown format.
     /// </summary>
     /// <returns>A task representing the asynchronous operation, with a result of the generated changelog in Markdown format.</returns>
     public async Task<string> GenerateAsync()
     {
-        IChangelogResult result = await _builder.Source.GetLatestChangelogAsync();
+        IChangelogResult result = await source.GetLatestChangelogAsync();
         StringBuilder builder = new();
         builder.AppendLine($"# \ud83d\ude80 Version {result.Version}");
         if (!string.IsNullOrEmpty(result.VersionDescription))
@@ -35,7 +22,7 @@ public class MarkdownChangelogGenerator
             builder.AppendLine($"*{result.VersionDescription}*");
         }
 
-        foreach ((string type, string heading) in _builder.CommitTypes)
+        foreach ((string type, string heading) in CommitTypes)
         {
             builder.AppendLine();
             builder.AppendLine($"## {heading}");

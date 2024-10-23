@@ -97,9 +97,7 @@ public class MarkdownChangelogGeneratorTest
     [Fact]
     public async Task Test_Generate()
     {
-        MarkdownChangelogGenerator generator = new MarkdownChangelogGeneratorBuilder()
-            .UseSource(ChangelogSource)
-            .Build();
+        MarkdownChangelogGenerator generator = new(ChangelogSource);
 
         string changelog = await generator.GenerateAsync();
         changelog.Should().Be(_expectedResult);
