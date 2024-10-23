@@ -1,5 +1,5 @@
-﻿using Octokit;
-using Sagittaras.CommitArcher.Changelog;
+﻿using Microsoft.Extensions.Logging;
+using Octokit;
 using Sagittaras.CommitArcher.Core;
 using Sagittaras.CommitArcher.Parser;
 
@@ -30,6 +30,11 @@ public class GitHubChangelogSource : IChangelogSource
         _builder = builder;
         _client.Credentials = new Credentials(builder.Token);
     }
+
+    /// <summary>
+    ///     Shortuct access to the logger.
+    /// </summary>
+    private ILogger Logger => _builder.Logger;
 
     /// <summary>
     ///     Represents the current page number used for paginated requests to the GitHub API.
@@ -65,14 +70,15 @@ public class GitHubChangelogSource : IChangelogSource
 
             if (commit.Type == "release" && commit.Scope == ReleaseScope)
             {
+                Logger.LogInformation("Reached end of changelog for version {Version}, found {Commits} commits in total", _result.Version, _result.Commits.Count);
                 break;
             }
-            
+
             releaseCommits.Add(commit);
         }
 
         _result.Commits = releaseCommits.AsReadOnly();
-        
+
         return _result;
     }
 
@@ -82,7 +88,7 @@ public class GitHubChangelogSource : IChangelogSource
     private async Task FindTheVersionCommitAsync()
     {
         string defaultValue = _result.Version;
-        
+
         while (_result.Version == defaultValue)
         {
             if (!CommitsQueue.TryDequeue(out IConventionalCommit? commit))
@@ -99,6 +105,8 @@ public class GitHubChangelogSource : IChangelogSource
             _result.Version = commit.Description;
             _result.VersionDescription = commit.Body ?? string.Empty;
             ReleaseScope = commit.Scope ?? throw new InvalidOperationException("Release's scope has been expected to be set.");
+            
+            Logger.LogInformation("Resolved version {Version} in scope {Scope}", _result.Version, ReleaseScope);
         }
     }
 
@@ -120,6 +128,12 @@ public class GitHubChangelogSource : IChangelogSource
 
         if (commits.Count == 0)
         {
+            Logger.LogWarning(
+                "No more commits has been found in {Owner}/{Repository} for Branch {Branch}",
+                _builder.RepositoryOwner,
+                _builder.RepositoryName,
+                _builder.BranchName
+            );
             throw new InvalidOperationException("No more commits found.");
         }
 
@@ -130,9 +144,9 @@ public class GitHubChangelogSource : IChangelogSource
             {
                 conventionals.Add(ConventionalCommitParser.ParseCommit(gitHubCommit.Commit.Message));
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                // Just catch. Argument exception is thrown when the commit is not in conventional format.
+                Logger.LogWarning(e, "Commit {Sha} is not in correct conventional commit format", gitHubCommit.Sha);
             }
         }
 

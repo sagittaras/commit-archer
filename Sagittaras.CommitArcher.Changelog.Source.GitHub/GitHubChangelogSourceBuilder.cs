@@ -1,4 +1,7 @@
-﻿namespace Sagittaras.CommitArcher.Changelog.Source.GitHub;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+
+namespace Sagittaras.CommitArcher.Changelog.Source.GitHub;
 
 /// <summary>
 ///     A builder class for constructing instances of <see cref="GitHubChangelogSource"/>.
@@ -24,6 +27,11 @@ public class GitHubChangelogSourceBuilder
     ///     The name of the branch in the GitHub repository from which commits will be fetched.
     /// </summary>
     internal string BranchName { get; private set; } = "main";
+    
+    /// <summary>
+    ///     Instance of logger used within the source.
+    /// </summary>
+    internal ILogger Logger { get; private set; } = NullLogger.Instance;
 
     /// <summary>
     ///     Builds and returns an instance of <see cref="GitHubChangelogSource"/>.
