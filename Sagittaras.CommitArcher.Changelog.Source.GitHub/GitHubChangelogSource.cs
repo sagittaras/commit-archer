@@ -70,7 +70,7 @@ public class GitHubChangelogSource : IChangelogSource
 
             if (commit.Type == "release" && commit.Scope == ReleaseScope)
             {
-                Logger.LogInformation("Reached end of changelog for version {Version}, found {Commits} commits in total", _result.Version, _result.Commits.Count);
+                Logger.LogInformation("Reached end of changelog for version {Version}, found {Commits} commits in total", _result.Version, releaseCommits.Count);
                 break;
             }
 
@@ -105,7 +105,7 @@ public class GitHubChangelogSource : IChangelogSource
             _result.Version = commit.Description;
             _result.VersionDescription = commit.Body ?? string.Empty;
             ReleaseScope = commit.Scope ?? throw new InvalidOperationException("Release's scope has been expected to be set.");
-            
+
             Logger.LogInformation("Resolved version {Version} in scope {Scope}", _result.Version, ReleaseScope);
         }
     }
