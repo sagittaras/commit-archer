@@ -77,6 +77,7 @@ public class GitHubChangelogSource : IChangelogSource
             releaseCommits.Add(commit);
         }
 
+        releaseCommits.Reverse(); // We are reading from the latest commit. Once the changelog is ready, reverse the order.
         _result.Commits = releaseCommits.AsReadOnly();
 
         return _result;
