@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagittaras.CommitArcher.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagittaras.CommitArcher.Changelog.Slack", "Sagittaras.CommitArcher.Changelog.Slack\Sagittaras.CommitArcher.Changelog.Slack.csproj", "{4DD74129-BB0C-4892-9EB3-88842C3FCD0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagittaras.CommitArcher.Tests.Changelog.Slack", "Sagittaras.CommitArcher.Tests.Changelog.Slack\Sagittaras.CommitArcher.Tests.Changelog.Slack.csproj", "{36FF85BB-BDAB-4D95-9AA6-3B38B86F2740}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,7 @@ Global
 		{AABA35EC-D8EB-47AB-B2E1-8D02338A08C3} = {0266E347-1427-4845-BE6D-96D5EFA0BBC3}
 		{89FDFC78-9F61-490A-B57B-C9E1A36D58AE} = {0266E347-1427-4845-BE6D-96D5EFA0BBC3}
 		{4DD74129-BB0C-4892-9EB3-88842C3FCD0C} = {A15763C8-56F7-4CE1-920F-FA1B8DE446DE}
+		{36FF85BB-BDAB-4D95-9AA6-3B38B86F2740} = {0266E347-1427-4845-BE6D-96D5EFA0BBC3}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B012C526-1AE2-4486-BD64-79A95AC0B974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -88,5 +91,9 @@ Global
 		{4DD74129-BB0C-4892-9EB3-88842C3FCD0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DD74129-BB0C-4892-9EB3-88842C3FCD0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DD74129-BB0C-4892-9EB3-88842C3FCD0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36FF85BB-BDAB-4D95-9AA6-3B38B86F2740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36FF85BB-BDAB-4D95-9AA6-3B38B86F2740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36FF85BB-BDAB-4D95-9AA6-3B38B86F2740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36FF85BB-BDAB-4D95-9AA6-3B38B86F2740}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
