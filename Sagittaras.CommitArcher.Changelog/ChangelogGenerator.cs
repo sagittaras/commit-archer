@@ -13,7 +13,7 @@ public abstract class ChangelogGenerator
     /// </remarks>
     public Dictionary<string, string> CommitTypes { get; set; } = new()
     {
-        { "feat", "\u2728 Features" },
-        { "fix", "\ud83d\udc1b Fixes" }
+        { "feat", ":sparkles: *Features*" },
+        { "fix", ":bug: *Fixes*" }
     };
 }

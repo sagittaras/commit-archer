@@ -64,7 +64,7 @@ public class SlackChangelogGenerator(IChangelogSource source) : ChangelogGenerat
                 {
                     type = "mrkdwn",
                     emoji = true,
-                    text = $"*{heading}*"
+                    text = heading
                 }
             });
 

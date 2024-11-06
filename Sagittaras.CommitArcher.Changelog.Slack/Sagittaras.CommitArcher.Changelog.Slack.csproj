@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>1.0.0-preview01</Version>
+        <Version>1.0.0-preview02</Version>
         <Title>Commit Archer Slack Changelog</Title>
         <Authors>Sagittaras Games</Authors>
         <Description>Generator of changelog from conventional commits as rich formatted Slack message.</Description>
