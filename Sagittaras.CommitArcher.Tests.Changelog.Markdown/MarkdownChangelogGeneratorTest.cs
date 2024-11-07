@@ -86,7 +86,7 @@ public class MarkdownChangelogGeneratorTest
         get
         {
             Mock<IChangelogSource> mock = new();
-            mock.Setup(x => x.GetLatestChangelogAsync()).ReturnsAsync(_result);
+            mock.Setup(x => x.GetChangelogAsync()).ReturnsAsync(_result);
 
             return mock.Object;
         }

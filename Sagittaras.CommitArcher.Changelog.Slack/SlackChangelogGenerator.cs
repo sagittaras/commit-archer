@@ -15,7 +15,7 @@ public class SlackChangelogGenerator(IChangelogSource source) : ChangelogGenerat
     /// <returns>Tuple containing a plain text message as a fallback for notifications and an array of blocks representing the message in a rich format.</returns>
     public async Task<(string, ICollection<IBlock>)> GenerateMessageAsync()
     {
-        IChangelogResult result = await source.GetLatestChangelogAsync();
+        IChangelogResult result = await source.GetChangelogAsync();
         string fallback = $"A new version {result.Version} has been released.";
 
         List<IBlock> blocks =

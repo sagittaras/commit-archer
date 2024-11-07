@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>1.0.0-preview02</Version>
+        <Version>1.0.0-preview03</Version>
         <Title>Commit Archer Changelog</Title>
         <Authors>Sagittaras Games</Authors>
         <Description>Base library for building a changelog from the conventional commits.</Description>

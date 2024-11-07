@@ -94,4 +94,14 @@ public interface IConventionalCommit
     /// </remarks>
     /// <seealso href="https://git-scm.com/docs/git-interpret-trailers"/>
     IDictionary<string, string> Footers { get; }
+
+    /// <summary>
+    ///     Gets the original commit associated with this conventional commit.
+    /// </summary>
+    /// <remarks>
+    ///     This property provides access to the underlying commit data that this
+    ///     conventional commit is based on, allowing for tracking and referencing
+    ///     the original commit details.
+    /// </remarks>
+    ICommit OriginalCommit { get; set; }
 }

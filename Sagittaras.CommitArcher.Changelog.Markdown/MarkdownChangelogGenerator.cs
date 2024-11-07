@@ -15,7 +15,7 @@ public class MarkdownChangelogGenerator(IChangelogSource source) : ChangelogGene
     /// <returns>A task representing the asynchronous operation, with a result of the generated changelog in Markdown format.</returns>
     public async Task<string> GenerateAsync()
     {
-        IChangelogResult result = await source.GetLatestChangelogAsync();
+        IChangelogResult result = await source.GetChangelogAsync();
         StringBuilder builder = new();
         builder.AppendLine($"# \ud83d\ude80 Version {result.Version}");
         if (!string.IsNullOrEmpty(result.VersionDescription))

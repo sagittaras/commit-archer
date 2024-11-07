@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Octokit;
+using Sagittaras.CommitArcher.Changelog.Source.GitHub.Extensions;
 using Sagittaras.CommitArcher.Core;
 using Sagittaras.CommitArcher.Parser;
 
@@ -8,6 +9,14 @@ namespace Sagittaras.CommitArcher.Changelog.Source.GitHub;
 /// <summary>
 ///     Source implementation for GitHub reading the commits via its API and constructing the changelog.
 /// </summary>
+/// <remarks>
+///     Introduces approach that is in usage by Sagittaras Games team in their development pipeline. Environmental or release branches
+///     are used. Every new release through this branch is marked via merge commit in conventional format of type <c>release</c>, where
+///     its scope describes the environment. This allows to promote updates through different environments.
+///     <c>release</c> commit should contain the version number in its description, and it can contain the further description of the release in its
+///     optional body part.
+///     Class traverses the commit history from the resolved version until it encounters a <c>release</c> commit in the same scope or until the end of the history is reached.
+/// </remarks>
 public class GitHubChangelogSource : IChangelogSource
 {
     /// <summary>
@@ -25,10 +34,22 @@ public class GitHubChangelogSource : IChangelogSource
     /// </summary>
     private readonly ChangelogResult _result = new();
 
+    /// <summary>
+    ///     Stores the resolved version of the repository after fetching from the GitHub API.
+    /// </summary>
+    private string _resolvedVersion = string.Empty;
+
     internal GitHubChangelogSource(GitHubChangelogSourceBuilder builder)
     {
         _builder = builder;
         _client.Credentials = new Credentials(builder.Token);
+
+        Logger.LogInformation(
+            "GitHub Changelog source for {Repository}/{Owner} [{Branch}] has been created.",
+            _builder.RepositoryOwner,
+            _builder.RepositoryName,
+            _builder.BranchName
+        );
     }
 
     /// <summary>
@@ -55,16 +76,45 @@ public class GitHubChangelogSource : IChangelogSource
     private string ReleaseScope { get; set; } = string.Empty;
 
     /// <inheritdoc />
-    public async Task<IChangelogResult> GetLatestChangelogAsync()
+    public string ResolvedVersion => !string.IsNullOrEmpty(_resolvedVersion) ? _resolvedVersion : throw new InvalidOperationException("The version in the repository has not been resolved yet.");
+
+    /// <inheritdoc />
+    public async Task<string> ResolveLatestVersionAsync()
     {
-        await FindTheVersionCommitAsync();
+        await FindTheVersionAsync();
+        return ResolvedVersion;
+    }
+
+    /// <inheritdoc />
+    public Task ResolveVersionAsync(string version)
+    {
+        return FindTheVersionAsync(version);
+    }
+
+    /// <inheritdoc />
+    public async Task<IChangelogResult> GetChangelogAsync()
+    {
+        if (string.IsNullOrEmpty(_resolvedVersion))
+        {
+            Logger.LogInformation("Version has not been resolved yet.");
+            await FindTheVersionAsync();
+        }
 
         List<IConventionalCommit> releaseCommits = [];
         while (true)
         {
             if (!CommitsQueue.TryDequeue(out IConventionalCommit? commit))
             {
-                await GetNextCommitsAsync();
+                try
+                {
+                    await GetNextCommitsAsync();
+                }
+                catch (InvalidOperationException)
+                {
+                    Logger.LogInformation("The changelog has reached the end of history.");
+                    break;
+                }
+
                 continue;
             }
 
@@ -73,7 +123,8 @@ public class GitHubChangelogSource : IChangelogSource
                 Logger.LogInformation("Reached end of changelog for version {Version}, found {Commits} commits in total", _result.Version, releaseCommits.Count);
                 break;
             }
-
+            
+            Logger.LogTrace("{Commit}", commit.ToString());
             releaseCommits.Add(commit);
         }
 
@@ -84,17 +135,34 @@ public class GitHubChangelogSource : IChangelogSource
     }
 
     /// <summary>
-    ///     Find the first commit marked as "release".
+    ///     Find the first commit marked as <c>release</c>.
     /// </summary>
-    private async Task FindTheVersionCommitAsync()
+    /// <param name="version">Specific version to be found in the commits. If not set, the latest version is resolved.</param>
+    private async Task FindTheVersionAsync(string? version = null)
     {
-        string defaultValue = _result.Version;
+        if (version is null)
+        {
+            Logger.LogInformation("Searching for latest version in commits history.");
+        }
+        else
+        {
+            Logger.LogInformation("Searching for version {Version} in commits history.", version);
+        }
 
-        while (_result.Version == defaultValue)
+        while (string.IsNullOrEmpty(_resolvedVersion))
         {
             if (!CommitsQueue.TryDequeue(out IConventionalCommit? commit))
             {
-                await GetNextCommitsAsync();
+                try
+                {
+                    await GetNextCommitsAsync();
+                }
+                catch (InvalidOperationException e)
+                {
+                    Logger.LogError("The changelog has reached the end of history without specific release version.");
+                    throw new InvalidOperationException("The changelog has reached the end of history without specific release version.", e);
+                }
+
                 continue;
             }
 
@@ -103,11 +171,24 @@ public class GitHubChangelogSource : IChangelogSource
                 continue;
             }
 
-            _result.Version = commit.Description;
+            // We are searching for specific version.
+            if (version is not null && commit.Description != version)
+            {
+                Logger.LogDebug("Found version {FoundVersion}, but searching for specific version {Version}", commit.Description, version);
+                continue;
+            }
+
+            _result.Version = _resolvedVersion = commit.Description;
             _result.VersionDescription = commit.Body ?? string.Empty;
             ReleaseScope = commit.Scope ?? throw new InvalidOperationException("Release's scope has been expected to be set.");
 
-            Logger.LogInformation("Resolved version {Version} in scope {Scope}", _result.Version, ReleaseScope);
+            Logger.LogInformation("Resolved version {Version} in scope {Scope} on commit {Sha}", _result.Version, ReleaseScope, commit.OriginalCommit.Sha);
+            Logger.LogInformation(
+                "Version {Version} has been committed by {Committer} and authored by {Authored}",
+                _result.Version,
+                commit.OriginalCommit.Committer,
+                commit.OriginalCommit.Author
+            );
         }
     }
 
@@ -117,6 +198,8 @@ public class GitHubChangelogSource : IChangelogSource
     /// <returns>A task that represents the asynchronous operation. The task result contains a collection of conventional commits.</returns>
     private async Task GetNextCommitsAsync()
     {
+        Logger.LogDebug("Loading page {Page} of commits history with size 30.", Page);
+
         IReadOnlyList<GitHubCommit> commits = await _client.Repository.Commit.GetAll(_builder.RepositoryOwner, _builder.RepositoryName, new CommitRequest
         {
             Sha = _builder.BranchName
@@ -138,12 +221,15 @@ public class GitHubChangelogSource : IChangelogSource
             throw new InvalidOperationException("No more commits found.");
         }
 
-        List<IConventionalCommit> conventionals = [];
+        List<IConventionalCommit> resolved = [];
         foreach (GitHubCommit gitHubCommit in commits)
         {
             try
             {
-                conventionals.Add(ConventionalCommitParser.ParseCommit(gitHubCommit.Commit.Message));
+                IConventionalCommit commit = ConventionalCommitParser.ParseCommit(gitHubCommit.Commit.Message);
+                commit.OriginalCommit = gitHubCommit.ToGitCommit();
+
+                resolved.Add(commit);
             }
             catch (ArgumentException e)
             {
@@ -151,6 +237,6 @@ public class GitHubChangelogSource : IChangelogSource
             }
         }
 
-        CommitsQueue = new Queue<IConventionalCommit>(conventionals);
+        CommitsQueue = new Queue<IConventionalCommit>(resolved);
     }
 }

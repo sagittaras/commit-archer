@@ -36,7 +36,7 @@ public static class ChangelogSourceMock
     public static IChangelogSource Create()
     {
         Mock<IChangelogSource> mock = new();
-        mock.Setup(x => x.GetLatestChangelogAsync())
+        mock.Setup(x => x.GetChangelogAsync())
             .ReturnsAsync(Result)
             ;
 

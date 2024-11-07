@@ -25,4 +25,13 @@ public class ConventionalCommit : IConventionalCommit
 
     /// <inheritdoc />
     public IDictionary<string, string> Footers { get; set; } = new Dictionary<string, string>();
+
+    /// <inheritdoc />
+    public ICommit OriginalCommit { get; set; } = new Commit();
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"{Type}: {Description}";
+    }
 }
