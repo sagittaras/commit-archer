@@ -14,5 +14,8 @@ public class ChangelogResult : IChangelogResult
     public string VersionDescription { get; set; } = string.Empty;
 
     /// <inheritdoc />
+    public IConventionalCommit ReleaseCommit { get; set; } = new ConventionalCommit();
+
+    /// <inheritdoc />
     public IReadOnlyCollection<IConventionalCommit> Commits { get; set; } = new List<IConventionalCommit>();
 }

@@ -1,4 +1,6 @@
-﻿namespace Sagittaras.CommitArcher.Changelog.Source;
+﻿using Sagittaras.CommitArcher.Core;
+
+namespace Sagittaras.CommitArcher.Changelog.Source;
 
 /// <summary>
 ///     Describes a service that is accessing a git repository for reading
@@ -11,6 +13,11 @@ public interface IChangelogSource
     /// </summary>
     /// <exception cref="InvalidOperationException">The version has not been resolved yet.</exception>
     string ResolvedVersion { get; }
+    
+    /// <summary>
+    ///     Instance of the commit which is marking the release.
+    /// </summary>
+    IConventionalCommit ReleaseCommit { get; }
     
     /// <summary>
     ///     Resolves the latest available version from commits.

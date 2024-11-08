@@ -39,6 +39,11 @@ public class GitHubChangelogSource : IChangelogSource
     /// </summary>
     private string _resolvedVersion = string.Empty;
 
+    /// <summary>
+    ///     Holds information about the release commit.
+    /// </summary>
+    private IConventionalCommit? _releaseCommit;
+
     internal GitHubChangelogSource(GitHubChangelogSourceBuilder builder)
     {
         _builder = builder;
@@ -77,6 +82,9 @@ public class GitHubChangelogSource : IChangelogSource
 
     /// <inheritdoc />
     public string ResolvedVersion => !string.IsNullOrEmpty(_resolvedVersion) ? _resolvedVersion : throw new InvalidOperationException("The version in the repository has not been resolved yet.");
+
+    /// <inheritdoc />
+    public IConventionalCommit ReleaseCommit => _releaseCommit ?? throw new InvalidOperationException("The release commit has not been resolved yet.");
 
     /// <inheritdoc />
     public async Task<string> ResolveLatestVersionAsync()
@@ -123,13 +131,14 @@ public class GitHubChangelogSource : IChangelogSource
                 Logger.LogInformation("Reached end of changelog for version {Version}, found {Commits} commits in total", _result.Version, releaseCommits.Count);
                 break;
             }
-            
+
             Logger.LogTrace("{Commit}", commit.ToString());
             releaseCommits.Add(commit);
         }
 
         releaseCommits.Reverse(); // We are reading from the latest commit. Once the changelog is ready, reverse the order.
         _result.Commits = releaseCommits.AsReadOnly();
+        _result.ReleaseCommit = ReleaseCommit;
 
         return _result;
     }
@@ -180,6 +189,7 @@ public class GitHubChangelogSource : IChangelogSource
 
             _result.Version = _resolvedVersion = commit.Description;
             _result.VersionDescription = commit.Body ?? string.Empty;
+            _releaseCommit = commit;
             ReleaseScope = commit.Scope ?? throw new InvalidOperationException("Release's scope has been expected to be set.");
 
             Logger.LogInformation("Resolved version {Version} in scope {Scope} on commit {Sha}", _result.Version, ReleaseScope, commit.OriginalCommit.Sha);

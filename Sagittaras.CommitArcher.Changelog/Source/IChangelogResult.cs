@@ -16,6 +16,11 @@ public interface IChangelogResult
     ///     Gets the description of the version, which provides additional contextual information about the latest changes.
     /// </summary>
     string VersionDescription { get; }
+    
+    /// <summary>
+    ///     Instance of the commit which is marking the release.
+    /// </summary>
+    IConventionalCommit ReleaseCommit { get; }
 
     /// <summary>
     ///     Gets a collection of conventional commits extracted from the repository.
