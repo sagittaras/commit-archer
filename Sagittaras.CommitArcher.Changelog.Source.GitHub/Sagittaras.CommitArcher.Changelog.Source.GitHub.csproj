@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>1.0.0-preview06</Version>
+        <Version>1.0.0-preview07</Version>
         <Title>Commit Archer Changelog GitHub Source</Title>
         <Authors>Sagittaras Games</Authors>
         <Description>Source of commits from GitHub for Changelog generator.</Description>

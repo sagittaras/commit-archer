@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <Title>Commit Archer Parser</Title>
         <Authors>Sagittaras Games</Authors>
-        <Version>1.0.0-preview01</Version>
+        <Version>1.0.0-preview02</Version>
         <Description>Parser for commit messages in conventional commit format.</Description>
         <PackageProjectUrl>https://github.com/sagittaras/commit-archer</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/sagittaras/commit-archer/blob/main/LICENSE</PackageLicenseUrl>

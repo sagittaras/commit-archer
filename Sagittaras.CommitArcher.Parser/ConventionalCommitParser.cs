@@ -18,6 +18,7 @@ public static partial class ConventionalCommitParser
     /// <returns>An IConventionalCommit object populated with details extracted from the commit message.</returns>
     public static IConventionalCommit ParseCommit(string message)
     {
+        message = message.ReplaceLineEndings("\n");
         Match match = ConventionalCommitRegex().Match(message);
         if (!match.Success)
         {

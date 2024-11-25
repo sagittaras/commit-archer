@@ -86,4 +86,20 @@ public class ConventionalCommitParserTest
         Action act = () => ConventionalCommitParser.ParseCommit("This is a standard commit message not following the format.");
         act.Should().Throw<ArgumentException>();
     }
+
+    /// <summary>
+    ///     GitHub is making unexpected escape sequence after body and before footer. This is causing to regular expression to be stucked.
+    /// </summary>
+    [Fact]
+    public void Test_GitHubFooterResolution()
+    {
+        const string message = "feat: Description\n\nOptional body.\r\n\r\nIssue: CA-000";
+        
+        IConventionalCommit commit = ConventionalCommitParser.ParseCommit(message);
+        commit.Should().NotBeNull();
+        commit.Description.Should().Be("Description");
+        commit.Footers.Should().HaveCount(1);
+        commit.Footers.Should().ContainKey("Issue");
+        commit.Footers["Issue"].Should().Be("CA-000");
+    }
 }
