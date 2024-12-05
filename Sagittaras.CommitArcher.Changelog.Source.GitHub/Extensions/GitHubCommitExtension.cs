@@ -25,7 +25,7 @@ public static class GitHubCommitExtension
             Committed = commit.Commit.Committer.Date.UtcDateTime,
             
             Sha = commit.Sha,
-            Url = commit.Url
+            Url = commit.HtmlUrl
         };
     }
 }
