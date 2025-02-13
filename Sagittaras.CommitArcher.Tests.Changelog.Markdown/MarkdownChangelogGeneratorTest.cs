@@ -65,13 +65,13 @@ public class MarkdownChangelogGeneratorTest
     private readonly string _expectedResult = """
                                               # 🚀 Version 0.3.8-alpha
 
-                                              ## ✨ Features
+                                              ## :sparkles: *Features*
                                               - **Waypoint is also animated.**
                                               - **Added animation to the quest markers.**
                                               	- _To make things more living on the map._
                                               - **Sound effect playing when the ambush battle is skipped yet it provided a loot from enemy.**
                                               
-                                              ## 🐛 Fixes
+                                              ## :bug: *Fixes*
                                               - **After player has finished its movement it is not being ported back and forth.**
                                               - **When Hud Presenter is dismissed, the controls of player are blocked.**
                                               	- _This helps to prevent unwanted clicks through the other presenters to the interactive map._
