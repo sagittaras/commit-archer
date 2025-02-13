@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>1.0.0-preview03</Version>
+        <Version>1.0.0-preview04</Version>
         <Title>Commit Archer Slack Changelog</Title>
         <Authors>Sagittaras Games</Authors>
         <Description>Generator of changelog from conventional commits as rich formatted Slack message.</Description>
@@ -14,11 +14,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="SlackAPI" Version="1.1.14" />
+      <ProjectReference Include="..\Sagittaras.CommitArcher.Changelog\Sagittaras.CommitArcher.Changelog.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sagittaras.CommitArcher.Changelog\Sagittaras.CommitArcher.Changelog.csproj" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.2" />
+      <PackageReference Include="SlackNet" Version="0.15.5" />
     </ItemGroup>
 
 </Project>

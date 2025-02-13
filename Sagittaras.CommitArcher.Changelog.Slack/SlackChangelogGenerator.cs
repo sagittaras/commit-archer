@@ -1,6 +1,6 @@
 ﻿using Sagittaras.CommitArcher.Changelog.Source;
 using Sagittaras.CommitArcher.Core;
-using SlackAPI;
+using SlackNet.Blocks;
 
 namespace Sagittaras.CommitArcher.Changelog.Slack;
 
@@ -13,20 +13,19 @@ public class SlackChangelogGenerator(IChangelogSource source) : ChangelogGenerat
     ///     Generates the changelog as a block message suitable to be sent to a Slack channel.
     /// </summary>
     /// <returns>Tuple containing a plain text message as a fallback for notifications and an array of blocks representing the message in a rich format.</returns>
-    public async Task<(string, ICollection<IBlock>)> GenerateMessageAsync()
+    public async Task<(string, IList<Block>)> GenerateMessageAsync()
     {
         IChangelogResult result = await source.GetChangelogAsync();
         string fallback = $"A new version {result.Version} has been released.";
 
-        List<IBlock> blocks =
+        List<Block> blocks =
         [
             new HeaderBlock
             {
-                text = new Text
+                Text = new PlainText
                 {
-                    type = "plain_text",
-                    emoji = true,
-                    text = ":rocket: New version has been released!"
+                    Emoji = true,
+                    Text = ":rocket: New version has been released!"
                 }
             }
         ];
@@ -35,24 +34,16 @@ public class SlackChangelogGenerator(IChangelogSource source) : ChangelogGenerat
         {
             blocks.Add(new ContextBlock
             {
-                elements =
+                Elements =
                 [
-                    new Text
-                    {
-                        type = "mrkdwn",
-                        text = result.VersionDescription
-                    }
+                    new Markdown(result.VersionDescription)
                 ]
             });
         }
 
         blocks.Add(new SectionBlock
         {
-            text = new Text
-            {
-                type = "mrkdwn",
-                text = $"Changelist for version *{result.Version}*"
-            }
+            Text = new Markdown($"Changelist for version *{result.Version}*")
         });
 
         foreach ((string type, string heading) in CommitTypes)
@@ -60,35 +51,23 @@ public class SlackChangelogGenerator(IChangelogSource source) : ChangelogGenerat
             blocks.Add(new DividerBlock());
             blocks.Add(new SectionBlock
             {
-                text = new Text
-                {
-                    type = "mrkdwn",
-                    text = heading
-                }
+                Text = new Markdown(heading)
             });
 
             foreach (IConventionalCommit commit in result.Commits.Where(x => x.Type == type))
             {
                 blocks.Add(new SectionBlock
                 {
-                    text = new Text
-                    {
-                        type = "plain_text",
-                        text = commit.Description
-                    }
+                    Text = new PlainText(commit.Description)
                 });
 
                 if (!string.IsNullOrEmpty(commit.Body))
                 {
                     blocks.Add(new ContextBlock
                     {
-                        elements =
+                        Elements =
                         [
-                            new Text
-                            {
-                                type = "plain_text",
-                                text = commit.Body
-                            }
+                            new PlainText(commit.Body)
                         ]
                     });
                 }
