@@ -104,7 +104,7 @@ public class GitHubChangelogSource : IChangelogSource
     {
         if (string.IsNullOrEmpty(_resolvedVersion))
         {
-            Logger.LogInformation("Version has not been resolved yet.");
+            Logger.LogInformation("Version has not been resolved yet");
             await FindTheVersionAsync();
         }
 
@@ -119,7 +119,7 @@ public class GitHubChangelogSource : IChangelogSource
                 }
                 catch (InvalidOperationException)
                 {
-                    Logger.LogInformation("The changelog has reached the end of history.");
+                    Logger.LogInformation("The changelog has reached the end of history");
                     break;
                 }
 
@@ -151,11 +151,11 @@ public class GitHubChangelogSource : IChangelogSource
     {
         if (version is null)
         {
-            Logger.LogInformation("Searching for latest version in commits history.");
+            Logger.LogInformation("Searching for latest version in commits history");
         }
         else
         {
-            Logger.LogInformation("Searching for version {Version} in commits history.", version);
+            Logger.LogInformation("Searching for version {Version} in commits history", version);
         }
 
         while (string.IsNullOrEmpty(_resolvedVersion))
@@ -168,7 +168,7 @@ public class GitHubChangelogSource : IChangelogSource
                 }
                 catch (InvalidOperationException e)
                 {
-                    Logger.LogError("The changelog has reached the end of history without specific release version.");
+                    Logger.LogError("The changelog has reached the end of history without specific release version");
                     throw new InvalidOperationException("The changelog has reached the end of history without specific release version.", e);
                 }
 
@@ -208,7 +208,7 @@ public class GitHubChangelogSource : IChangelogSource
     /// <returns>A task that represents the asynchronous operation. The task result contains a collection of conventional commits.</returns>
     private async Task GetNextCommitsAsync()
     {
-        Logger.LogDebug("Loading page {Page} of commits history with size 30.", Page);
+        Logger.LogDebug("Loading page {Page} of commits history with size 30", Page);
 
         IReadOnlyList<GitHubCommit> commits = await _client.Repository.Commit.GetAll(_builder.RepositoryOwner, _builder.RepositoryName, new CommitRequest
         {
